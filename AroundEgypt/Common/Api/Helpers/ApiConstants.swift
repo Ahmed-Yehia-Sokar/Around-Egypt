@@ -9,5 +9,5 @@ import Foundation
 
 struct ApiConstants {
     // MARK: - properties
-    static let baseUrl = "https://aroundegypt.34ml.com/"
+    static let baseUrl = "https://aroundegypt.34ml.com"
 }
