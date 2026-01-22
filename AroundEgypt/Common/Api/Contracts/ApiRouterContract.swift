@@ -15,7 +15,7 @@ protocol ApiRouterContract {
 }
 
 extension ApiRouterContract {
-    var headers: [String: String]? {
+    var headers: [String: String] {
         [:]
     }
     var method: String {

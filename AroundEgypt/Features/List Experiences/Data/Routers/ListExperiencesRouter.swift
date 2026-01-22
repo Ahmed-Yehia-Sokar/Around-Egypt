@@ -26,12 +26,4 @@ enum ListExperiencesRouter: ApiRouterContract {
             return ApiConstants.baseUrl + "/api/v2/experiences?filter[title]=\(query)"
         }
     }
-    
-    var headers: [String: String] {
-        [:]
-    }
-    
-    var parameters: [String: Any] {
-        [:]
-    }
 }
