@@ -7,14 +7,17 @@
 
 import Foundation
 
-struct ApiException: Error {
+struct ApiException: LocalizedError {
     // MARK: - properties
-    let statusCode: ApiStatusCode,
-        description: String
+    let statusCode: ApiStatusCode
     
     // MARK: - init method
     init(statusCode: ApiStatusCode) {
         self.statusCode = statusCode
-        self.description = statusCode.description
+    }
+    
+    // MARK: - LocalizedError
+    var errorDescription: String? {
+        return statusCode.description
     }
 }
