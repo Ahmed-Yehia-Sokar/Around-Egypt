@@ -29,8 +29,12 @@ struct ListExperiencesServices: ListExperiencesServicesContract {
             let endpoint = ListExperiencesRouter.recommendedExperiences
             let data = try await apiClient.performRequest(endpoint: endpoint)
             let response = try JSONDecoder().decode(ExperiencesResponse.self, from: data)
+            ExperienceCache.saveRecommended(response.data)
             return .success(response.data)
         } catch {
+            if let cached = ExperienceCache.loadRecommended() {
+                return .success(cached)
+            }
             return .failure(error)
         }
     }
@@ -40,8 +44,12 @@ struct ListExperiencesServices: ListExperiencesServicesContract {
             let endpoint = ListExperiencesRouter.recentExperiences
             let data = try await apiClient.performRequest(endpoint: endpoint)
             let response = try JSONDecoder().decode(ExperiencesResponse.self, from: data)
+            ExperienceCache.saveRecent(response.data)
             return .success(response.data)
         } catch {
+            if let cached = ExperienceCache.loadRecent() {
+                return .success(cached)
+            }
             return .failure(error)
         }
     }
