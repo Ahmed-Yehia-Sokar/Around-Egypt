@@ -20,7 +20,6 @@ class HomeViewModel: ObservableObject {
     @Published var searchQuery = ""
     @Published var recommendedExperiences: [Experience] = []
     @Published var recentExperiences: [Experience] = []
-    @Published var isLoading = false
     @Published var errorMessage: String?
     
     // MARK: - private properties
@@ -48,7 +47,6 @@ class HomeViewModel: ObservableObject {
     
     // MARK: - methods
     func fetchExperiences() async {
-        isLoading = true
         errorMessage = nil
         
         async let recommendedResult = usecase.fetchRecommendedExperiences()
@@ -70,8 +68,6 @@ class HomeViewModel: ObservableObject {
                 errorMessage = error.localizedDescription
             }
         }
-        
-        isLoading = false
     }
     
     func searchExperiences(query: String) async {
@@ -80,7 +76,6 @@ class HomeViewModel: ObservableObject {
             return
         }
         
-        isLoading = true
         errorMessage = nil
         
         let result = await usecase.searchExperiences(query: query)
@@ -92,7 +87,5 @@ class HomeViewModel: ObservableObject {
         case .failure(let error):
             errorMessage = error.localizedDescription
         }
-        
-        isLoading = false
     }
 }

@@ -1,5 +1,5 @@
 //
-//  ExperienceViewModel.swift
+//  ExperienceDetailsViewModel.swift
 //  AroundEgypt
 //
 //  Created by Admin on 23/01/2026.
@@ -8,21 +8,21 @@
 import Foundation
 import Combine
 
-class ExperienceViewModelProvider {
-    static func provide(experience: Experience) -> ExperienceViewModel {
+class ExperienceDetailsViewModelProvider {
+    static func provide(experience: Experience) -> ExperienceDetailsViewModel {
         let usecase = ExperienceDetailsUsecaseProvider.provide()
-        return ExperienceViewModel(experience: experience,
-                                   usecase: usecase)
+        return ExperienceDetailsViewModel(experience: experience,
+                                          usecase: usecase)
     }
 }
 
-class ExperienceViewModel: ObservableObject {
+class ExperienceDetailsViewModel: ObservableObject {
     // MARK: - published properties
     @Published var experience: Experience
     
     // MARK: - private properties
     private var usecase: ExperienceDetailsUsecaseContract
-
+    
     // MARK: - init method
     init(experience: Experience,
          usecase: ExperienceDetailsUsecaseContract) {
@@ -32,16 +32,19 @@ class ExperienceViewModel: ObservableObject {
     
     // MARK: - methods
     func getExperienceCoverPhotoURL() -> URL? {
-        guard let coverPhotoURL = URL(string: experience.coverPhoto) else { return nil }
-        return coverPhotoURL
+        URL(string: experience.coverPhoto)
     }
     
     func getExperienceViewsNumber() -> String {
-        "\(experience.viewsNumber)"
+        "\(experience.viewsNumber) views"
     }
     
     func getExperienceTitle() -> String {
         experience.title
+    }
+    
+    func getExperienceAddress() -> String {
+        experience.address
     }
     
     func getExperienceLikesNumber() -> String {
@@ -49,7 +52,11 @@ class ExperienceViewModel: ObservableObject {
     }
     
     func isExperienceLiked() -> Bool {
-        return experience.isLiked ?? false
+        experience.isLiked ?? false
+    }
+    
+    func getExperienceDescription() -> String {
+        experience.detailedDescription
     }
     
     func likeExperience() {

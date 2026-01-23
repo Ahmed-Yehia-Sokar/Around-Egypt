@@ -22,6 +22,7 @@ struct ExperienceView: View {
         ZStack(alignment: .bottomLeading) {
             KFImage(viewModel.getExperienceCoverPhotoURL())
                 .resizable()
+                .frame(maxWidth: .infinity)
                 .frame(height: 200.0)
                 .clipped()
                 .cornerRadius(12.0)
@@ -54,10 +55,12 @@ struct ExperienceView: View {
                 .foregroundColor(.black)
             
             Button(action: {
+                viewModel.likeExperience()
             }) {
                 Image(systemName: viewModel.isExperienceLiked() ? "heart.fill" : "heart")
-                    .foregroundColor(Color.orange)
+                    .foregroundColor(.orange)
             }
+            .disabled(viewModel.isExperienceLiked())
         }
         .padding()
     }

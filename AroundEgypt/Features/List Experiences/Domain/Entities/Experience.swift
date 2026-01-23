@@ -17,11 +17,11 @@ struct Experience: Codable, Identifiable {
     let coverPhoto: String
     let description: String
     let viewsNumber: Int
-    let likesNumber: Int
+    var likesNumber: Int
     let recommended: Int
     let detailedDescription: String
     let address: String
-    let isLiked: Bool?
+    var isLiked: Bool?
     
     enum CodingKeys: String, CodingKey {
         case id

@@ -43,6 +43,34 @@ struct ApiClient: ApiClientContract {
             throw ApiException(statusCode: .unknown)
         }
         
+        // Debug: print the response
+        printResponse(url: url, statusCode: response.response?.statusCode, data: data)
+        
         return data
+    }
+    
+    // MARK: - Debug Helpers
+    private func printResponse(url: String, statusCode: Int?, data: Data) {
+        print("╔══════════════════════════════════════════════════════════════")
+        print("║ 📡 API RESPONSE")
+        print("╠══════════════════════════════════════════════════════════════")
+        print("║ URL: \(url)")
+        print("║ Status Code: \(statusCode ?? -1)")
+        print("╠══════════════════════════════════════════════════════════════")
+        print("║ Response Body:")
+        
+        if let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []),
+           let prettyData = try? JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted),
+           let prettyString = String(data: prettyData, encoding: .utf8) {
+            prettyString.split(separator: "\n").forEach { line in
+                print("║ \(line)")
+            }
+        } else if let rawString = String(data: data, encoding: .utf8) {
+            print("║ \(rawString)")
+        } else {
+            print("║ [Unable to decode response data]")
+        }
+        
+        print("╚══════════════════════════════════════════════════════════════")
     }
 }

@@ -43,8 +43,14 @@ struct HomeView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.recommendedExperiences) { experience in
-                        let experienceViewModel = ExperienceViewModelProvider.provide(experience: experience)
-                        ExperienceView(viewModel: experienceViewModel)
+                        NavigationLink {
+                            let experienceDetailsViewModel = ExperienceDetailsViewModelProvider.provide(experience: experience)
+                            ExperienceDetailsView(viewModel: experienceDetailsViewModel)
+                        } label: {
+                            let experienceViewModel = ExperienceViewModelProvider.provide(experience: experience)
+                            ExperienceView(viewModel: experienceViewModel)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
             }
@@ -58,8 +64,14 @@ struct HomeView: View {
                 .padding(.horizontal)
             
             ForEach(viewModel.recentExperiences) { experience in
-                let experienceViewModel = ExperienceViewModelProvider.provide(experience: experience)
-                ExperienceView(viewModel: experienceViewModel)
+                NavigationLink {
+                    let experienceDetailsViewModel = ExperienceDetailsViewModelProvider.provide(experience: experience)
+                    ExperienceDetailsView(viewModel: experienceDetailsViewModel)
+                } label: {
+                    let experienceViewModel = ExperienceViewModelProvider.provide(experience: experience)
+                    ExperienceView(viewModel: experienceViewModel)
+                }
+                .buttonStyle(.plain)
             }
         }
     }

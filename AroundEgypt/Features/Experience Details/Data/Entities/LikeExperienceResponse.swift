@@ -9,6 +9,6 @@ struct LikeExperienceResponse: Decodable {
     let likesNumber: Int
     
     enum CodingKeys: String, CodingKey {
-        case likesNumber = "likes_no"
+        case likesNumber = "data"
     }
 }
