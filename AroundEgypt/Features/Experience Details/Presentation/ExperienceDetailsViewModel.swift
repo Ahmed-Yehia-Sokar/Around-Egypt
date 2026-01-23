@@ -22,12 +22,23 @@ class ExperienceDetailsViewModel: ObservableObject {
     
     // MARK: - private properties
     private var usecase: ExperienceDetailsUsecaseContract
+    private var cancellables = Set<AnyCancellable>()
     
     // MARK: - init method
     init(experience: Experience,
          usecase: ExperienceDetailsUsecaseContract) {
         self.experience = experience
         self.usecase = usecase
+        subscribeToExperienceUpdates()
+    }
+    
+    private func subscribeToExperienceUpdates() {
+        ExperienceStore.shared.experienceUpdated
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] updatedExperience in
+                self?.experience = updatedExperience
+            }
+            .store(in: &cancellables)
     }
     
     // MARK: - methods
@@ -66,6 +77,7 @@ class ExperienceDetailsViewModel: ObservableObject {
             case .success(let newLikesCount):
                 experience.isLiked = true
                 experience.likesNumber = newLikesCount
+                ExperienceStore.shared.update(experience)
             case .failure(let error):
                 print(error.localizedDescription)
             }

@@ -30,6 +30,25 @@ class HomeViewModel: ObservableObject {
     init(usecase: ListExperiencesUsecaseContract) {
         self.usecase = usecase
         setupSearchDebounce()
+        subscribeToExperienceUpdates()
+    }
+    
+    private func subscribeToExperienceUpdates() {
+        ExperienceStore.shared.experienceUpdated
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] updatedExperience in
+                self?.updateExperience(updatedExperience)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func updateExperience(_ updatedExperience: Experience) {
+        if let index = recommendedExperiences.firstIndex(where: { $0.id == updatedExperience.id }) {
+            recommendedExperiences[index] = updatedExperience
+        }
+        if let index = recentExperiences.firstIndex(where: { $0.id == updatedExperience.id }) {
+            recentExperiences[index] = updatedExperience
+        }
     }
     
     // MARK: - private methods

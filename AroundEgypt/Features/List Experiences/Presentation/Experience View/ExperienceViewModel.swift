@@ -59,6 +59,7 @@ class ExperienceViewModel: ObservableObject {
             case .success(let newLikesCount):
                 experience.isLiked = true
                 experience.likesNumber = newLikesCount
+                ExperienceStore.shared.update(experience)
             case .failure(let error):
                 print(error.localizedDescription)
             }
